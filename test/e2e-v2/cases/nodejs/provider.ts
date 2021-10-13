@@ -1,4 +1,5 @@
-/*
+/*!
+ *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -16,28 +17,19 @@
  *
  */
 
-package org.apache.skywalking.oal.rt.parser;
+import agent from './src';
 
-import java.util.List;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import express from 'express';
 
-/**
- * Function argument.
- */
-@Getter
-@RequiredArgsConstructor
-public class Argument {
+agent.start({
+  serviceName: 'provider',
+  maxBufferSize: 1000,
+});
+const app = express();
 
-    private final int type;
+const handle = (req, res) => setTimeout(() => res.send({'id': 1, 'name': 'ke'}), 200);
 
-    private final List<String> text;
+app.get('/users', handle);
+app.post('/users', handle);
 
-    @Setter
-    private String castType;
-
-    public void addText(String text) {
-        this.text.add(text);
-    }
-}
+app.listen(5000, () => console.info('Listening on port 5000...'));

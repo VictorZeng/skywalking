@@ -1,4 +1,5 @@
-/*
+/*!
+ *
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -16,28 +17,24 @@
  *
  */
 
-package org.apache.skywalking.oal.rt.parser;
+import * as http from 'http';
+import agent from './src';
+import axios from 'axios';
 
-import java.util.List;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+agent.start({
+  serviceName: 'consumer',
+  maxBufferSize: 1000,
+});
 
-/**
- * Function argument.
- */
-@Getter
-@RequiredArgsConstructor
-public class Argument {
-
-    private final int type;
-
-    private final List<String> text;
-
-    @Setter
-    private String castType;
-
-    public void addText(String text) {
-        this.text.add(text);
+const server = http.createServer((req, res) => {
+  axios
+  .post(`http://${process.env.SERVER || 'localhost:5000'}${req.url}`, {}, {
+    headers: {
+      'Content-Type': 'application/json'
     }
-}
+  })
+  .then((r) => res.end(JSON.stringify(r.data)))
+  .catch(err => res.end(JSON.stringify(err.message)));
+});
+
+server.listen(5001, () => console.info('Listening on port 5001...'));

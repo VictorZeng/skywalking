@@ -18,26 +18,37 @@
 
 package org.apache.skywalking.oal.rt.parser;
 
+import java.util.LinkedList;
 import java.util.List;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 /**
- * Function argument.
+ * Filter statements in the OAL scripts.
  */
 @Getter
-@RequiredArgsConstructor
-public class Argument {
+@Setter
+public class FilterStmts {
+    /**
+     * Parsed raw result from grammar tree.
+     */
+    private List<ConditionExpression> filterExpressionsParserResult;
+    /**
+     * Generated expressions for code generation.
+     */
+    private List<Expression> filterExpressions;
 
-    private final int type;
+    public void addFilterExpressions(Expression filterExpression) {
+        if (filterExpressions == null) {
+            filterExpressions = new LinkedList<>();
+        }
+        filterExpressions.add(filterExpression);
+    }
 
-    private final List<String> text;
-
-    @Setter
-    private String castType;
-
-    public void addText(String text) {
-        this.text.add(text);
+    public void addFilterExpressionsParserResult(ConditionExpression conditionExpression) {
+        if (filterExpressionsParserResult == null) {
+            filterExpressionsParserResult = new LinkedList<>();
+        }
+        filterExpressionsParserResult.add(conditionExpression);
     }
 }

@@ -18,26 +18,31 @@
 
 package org.apache.skywalking.oal.rt.parser;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 /**
- * Function argument.
+ * FROM statement in the OAL script
  */
+@Setter
 @Getter
-@RequiredArgsConstructor
-public class Argument {
-
-    private final int type;
-
-    private final List<String> text;
-
-    @Setter
-    private String castType;
-
-    public void addText(String text) {
-        this.text.add(text);
-    }
+public class FromStmt {
+    /**
+     * Source name in the FROM statement
+     */
+    private String sourceName;
+    /**
+     * source id according to {@link #sourceName}
+     */
+    private int sourceScopeId;
+    /**
+     * Attribute accessor
+     */
+    private List<String> sourceAttribute = new ArrayList<>();
+    /**
+     * Type cast function if exists. NULL as default, means no cast.
+     */
+    private String sourceCastType;
 }
