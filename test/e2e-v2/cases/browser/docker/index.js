@@ -6,25 +6,46 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
+import ClientMonitor from 'skywalking-client-js';
+import Vue from 'vue';
 
-package org.apache.skywalking.oap.query.graphql.resolver;
+ClientMonitor.register({
+  service: 'test-ui',
+  pagePath: 'index.html',
+  serviceVersion: 'v1.0.0',
+  vue: Vue,
+  useFmp: true,
+  traceTimeInterval: 2000,
+});
 
-import com.coxautodev.graphql.tools.GraphQLQueryResolver;
-import org.apache.skywalking.oap.server.core.version.Version;
+// vue error
+new Vue({
+  methods: {
+    test() {
+      throw {
+        msg: 'vue error',
+        status: 3000
+      }
+    }
+  },
+  created() {
+    this.test();
+  }
+})
 
-/**
- * Root Query Resolver.
- */
-public class Query implements GraphQLQueryResolver {
-    @SuppressWarnings("unused") // Used in GraphQL query
-    private final String version = Version.CURRENT.toString();
-}
+fetch('http://provider:9091/info', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+}).then((data) => {
+  console.log(data.body);
+})
