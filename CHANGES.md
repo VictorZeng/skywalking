@@ -7,27 +7,7 @@ Release Notes.
 
 #### Project
 
-* Replace e2e cases to e2e-v2:
-  - Simple: JDK, Auth, SSL, mTLS
-  - Lua Nginx
-  - SelfObservability
-  - Gateway
-  - Meter
-  - Nodejs
-  - PHP
-  - VM: Prometheus Node Exporter, Zabbix
-  - go2sky
-  - log
-  - Python
-  - Storage
-  - Cluster
-  - Event
-  - Profile
-  - Kafka: Base, Meter, Log, Profile
-  - Client-JS
-  - Istio: ALS, Metrics
-  - TTL
-  - Alarm
+* E2E tests immigrate to e2e-v2.
 * Support JDK 16 and 17.
 
 #### OAP Server
@@ -62,6 +42,7 @@ Release Notes.
 * Fix TimeBucket missing in ElasticSearch and provide compatible `storage2Entity` for previous versions.
 * Fix ElasticSearch implementation of `queryMetricsValues` and `readLabeledMetricsValues` doesn't fill default values
   when no available data in the ElasticSearch server.
+* Fix config yaml data type conversion bug when meets special character like !.
 
 #### UI
 
@@ -79,6 +60,11 @@ Release Notes.
 * Add version in the global settings popup.
 
 #### Documentation
+
+* Enhance documents about the data report and query protocols.
+* Restructure documents about receivers and fetchers. 
+  1. Remove general receiver and fetcher docs
+  2. Add more specific menu with docs to help users to find documents easier.
 
 All issues and pull requests are [here](https://github.com/apache/skywalking/milestone/101?closed=1)
 
